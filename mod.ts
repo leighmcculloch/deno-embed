@@ -1,6 +1,10 @@
 import * as fs from "https://deno.land/std@0.133.0/fs/mod.ts";
 import * as path from "https://deno.land/std@0.133.0/path/mod.ts";
 
+export interface ImportedEmbedEntry extends Deno.DirEntry {
+  contents?: Uint8Array | number[];
+}
+
 export interface EmbedEntry extends Deno.DirEntry {
   contents?: Uint8Array;
 }
@@ -8,8 +12,21 @@ export interface EmbedEntry extends Deno.DirEntry {
 export class Embed {
   private constructor(private entries: Record<string, EmbedEntry>) {}
 
-  static from(o: Record<string, EmbedEntry>): Embed {
-    return new Embed(o);
+  static fromImported(imported: Record<string, ImportedEmbedEntry>): Embed {
+    const entries: Record<string, EmbedEntry> = {};
+    for (const path in imported) {
+      const importedEntry = imported[path];
+      entries[path] = {
+        name: importedEntry.name,
+        isDirectory: importedEntry.isDirectory,
+        isFile: importedEntry.isFile,
+        isSymlink: importedEntry.isSymlink,
+      };
+      if (importedEntry.contents !== undefined) {
+        entries[path].contents = Uint8Array.from(importedEntry.contents);
+      }
+    }
+    return new Embed(entries);
   }
 
   *walk(root: string): Generator<fs.WalkEntry> {

@@ -1,13 +1,13 @@
 import * as t from "https://deno.land/std@0.133.0/testing/asserts.ts";
 import { Embed } from "./mod.ts";
 
-Deno.test("readFileTextSync file not found", () => {
-  const e = Embed.from({});
+Deno.test("readFileText file not found", () => {
+  const e = Embed.fromImported({});
   t.assertThrows(() => e.readTextFile("file"), Error, "file not found");
 });
 
-Deno.test("readFileTextSync file found", () => {
-  const e = Embed.from({
+Deno.test("readFileText file found", () => {
+  const e = Embed.fromImported({
     "file": {
       name: "file",
       isDirectory: false,
@@ -39,7 +39,7 @@ Deno.test("readFileTextSync file found", () => {
 });
 
 Deno.test("walk", () => {
-  const e = Embed.from({
+  const e = Embed.fromImported({
     "file": {
       name: "file",
       isDirectory: false,
@@ -107,7 +107,7 @@ Deno.test("walk", () => {
 });
 
 Deno.test("walk sub dir", () => {
-  const e = Embed.from({
+  const e = Embed.fromImported({
     "file": {
       name: "file",
       isDirectory: false,
