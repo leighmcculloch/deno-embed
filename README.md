@@ -2,6 +2,8 @@
 
 Embed files into deno applications by embedding them into a JSON file and importing natively into the deno app.
 
+https://deno.land/x/embed/main.ts
+
 ## Usage
 
 ```
