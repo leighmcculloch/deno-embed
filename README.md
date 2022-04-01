@@ -5,7 +5,7 @@ Embed files into deno applications by embedding them into a JSON file and import
 ## Usage
 
 ```
-deno run --allow-read --allow-write https://github.com/leighmcculloch/deno-embed/raw/main/main.ts -i dir1 -i dir2 -o embed.json
+deno run --allow-read --allow-write https://deno.land/x/embed@0.1.1/main.ts -i dir1 -i dir2 -o embed.json
 ```
 
 ### Lightweight usage
@@ -18,7 +18,7 @@ console.log(embed["dir1/file1"].contents);
 ### With interface
 
 ```ts
-import { Embed } from "https://deno.land/x/embed@0.1.0/mod.ts";
+import { Embed } from "https://deno.land/x/embed@0.1.1/mod.ts";
 import embedObj from "./embed.json" assert { type: "json" };
 const embed = Embed.from(embedObj);
 

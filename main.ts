@@ -22,7 +22,7 @@ function embed(inPaths: string[], outPath: string) {
           isDirectory: false,
           isFile: true,
           isSymlink: false,
-          contents: Deno.readFileSync(entry.path),
+          contents: Array.from(Deno.readFileSync(entry.path)),
         } as Deno.DirEntry;
       }
     }
