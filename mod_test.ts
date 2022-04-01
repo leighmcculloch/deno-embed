@@ -138,7 +138,7 @@ Deno.test("walk sub dir", () => {
   t.assertEquals(
     g1.next().value,
     {
-      path: "dir",
+      path: ".",
       name: "dir",
       isDirectory: true,
       isFile: false,
@@ -148,7 +148,7 @@ Deno.test("walk sub dir", () => {
   t.assertEquals(
     g1.next().value,
     {
-      path: "dir/file",
+      path: "file",
       name: "file",
       isDirectory: false,
       isFile: true,

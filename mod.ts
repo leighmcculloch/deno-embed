@@ -38,9 +38,12 @@ export class Embed {
       if (!p.startsWith(rootNorm)) {
         continue;
       }
+      let relPath = p.substring(rootNorm.length);
+      if (relPath == "") relPath = ".";
+      if (relPath[0] == "/") relPath = relPath.slice(1);
       const entry = this.entries[p];
       yield {
-        path: p,
+        path: relPath,
         ...entry,
       } as fs.WalkEntry;
     }
