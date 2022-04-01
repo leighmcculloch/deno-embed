@@ -9,7 +9,7 @@ function embed(inPaths: string[], outPath: string) {
       if (entry.isDirectory) {
         console.log(">", entry.path, "(dir)");
         outObj[entry.path] = {
-          name: entry.path,
+          name: path.basename(entry.path),
           isDirectory: true,
           isFile: false,
           isSymlink: false,
@@ -18,7 +18,7 @@ function embed(inPaths: string[], outPath: string) {
         const fileInfo = Deno.statSync(entry.path);
         console.log(">", entry.path, `(file, ${fileInfo.size}B)`);
         outObj[entry.path] = {
-          name: entry.path,
+          name: path.basename(entry.path),
           isDirectory: false,
           isFile: true,
           isSymlink: false,
