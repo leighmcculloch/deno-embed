@@ -49,4 +49,8 @@ cli
 cli.help();
 cli.version("0.1.0");
 
-cli.parse();
+try {
+  cli.parse();
+} catch (error) {
+  console.error(error.message);
+}
