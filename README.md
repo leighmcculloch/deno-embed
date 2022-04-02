@@ -25,7 +25,9 @@ import embed from "./embed.json" assert { type: "json" };
 console.log(embed["dir1/file1"].contents);
 ```
 
-### Import using Mod
+### Import using Embed
+
+[![](https://img.shields.io/badge/-Embed%20docs-lightgrey.svg?logo=deno&labelColor=black)](https://doc.deno.land/https://deno.land/x/embed/mod.ts/~/Embed)
 
 ```ts
 import { Embed } from "https://deno.land/x/embed/mod.ts";
