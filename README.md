@@ -1,10 +1,15 @@
 # deno-embed
 
+[![](https://img.shields.io/badge/-deno.land/x/embed-lightgrey.svg?logo=deno&labelColor=black)](https://deno.land/x/embed)
+
 Embed files into deno applications by embedding them into a JSON file and importing natively into the deno app.
 
-https://deno.land/x/embed/main.ts
+CLI: https://deno.land/x/embed/cli.ts  
+Mod: https://deno.land/x/embed/mod.ts
 
 ## Usage
+
+### CLI
 
 ```
 deno run --allow-read --allow-write \
@@ -13,14 +18,14 @@ deno run --allow-read --allow-write \
     -o embed.json
 ```
 
-### Lightweight usage
+### Import
 
 ```ts
 import embed from "./embed.json" assert { type: "json" };
 console.log(embed["dir1/file1"].contents);
 ```
 
-### With interface
+### Import using Mod
 
 ```ts
 import { Embed } from "https://deno.land/x/embed/mod.ts";
