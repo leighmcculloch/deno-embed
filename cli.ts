@@ -4,26 +4,37 @@ import { cac } from "https://unpkg.com/cac@6.7.12/mod.ts";
 
 function embed(inPaths: string[], outPath: string) {
   const outObj: Record<string, Deno.DirEntry> = {};
+  const addDir = (p: string) => {
+    console.log(">", p, "(dir)");
+    outObj[p] = {
+      name: path.basename(p),
+      isDirectory: true,
+      isFile: false,
+      isSymlink: false,
+    } as Deno.DirEntry;
+  };
+  const addFile = (p: string) => {
+    const fileInfo = Deno.statSync(p);
+    console.log(">", p, `(file, ${fileInfo.size}B)`);
+    outObj[p] = {
+      name: path.basename(p),
+      isDirectory: false,
+      isFile: true,
+      isSymlink: false,
+      contents: Array.from(Deno.readFileSync(p)),
+    } as Deno.DirEntry;
+  };
   inPaths.forEach((inPath) => {
-    for (const entry of fs.walkSync(inPath)) {
-      if (entry.isDirectory) {
-        console.log(">", entry.path, "(dir)");
-        outObj[entry.path] = {
-          name: path.basename(entry.path),
-          isDirectory: true,
-          isFile: false,
-          isSymlink: false,
-        } as Deno.DirEntry;
-      } else if (entry.isFile) {
-        const fileInfo = Deno.statSync(entry.path);
-        console.log(">", entry.path, `(file, ${fileInfo.size}B)`);
-        outObj[entry.path] = {
-          name: path.basename(entry.path),
-          isDirectory: false,
-          isFile: true,
-          isSymlink: false,
-          contents: Array.from(Deno.readFileSync(entry.path)),
-        } as Deno.DirEntry;
+    const inPathInfo = Deno.statSync(inPath);
+    if (inPathInfo.isFile) {
+      addFile(inPath);
+    } else {
+      for (const entry of fs.walkSync(inPath)) {
+        if (entry.isDirectory) {
+          addDir(entry.path);
+        } else if (entry.isFile) {
+          addFile(entry.path);
+        }
       }
     }
   });
@@ -32,14 +43,12 @@ function embed(inPaths: string[], outPath: string) {
   Deno.writeTextFileSync(outPath, outText);
 }
 
-const cli = cac("sjc");
-cli
-  .command("")
-  .option("-i, --in <path>", "One or more in files to embed in the out file")
+const cli = cac("embed");
+cli.command("", "Embed in files in the out JSON", { allowUnknownOptions: false })
+  .usage("-i <path> -o <path>")
+  .option("-i, --in <path>", "Files to embed in JSON file", { type: [] })
   .option("-o, --out <path>", "Out JSON file")
-  .example((name) =>
-    `${name} -i example1.ts -i example2.ts -i folder -o bundle.json`
-  )
+  .example((name) => `${name} -i file1.ts -i dir -o embed.json`)
   .action((opts) => {
     const inPaths = [].concat(opts.in).map((p) => path.normalize(p));
     const outPath = opts.out;
@@ -47,7 +56,7 @@ cli
   });
 
 cli.help();
-cli.version("0.1.0");
+cli.version("0.2.5");
 
 try {
   cli.parse();
