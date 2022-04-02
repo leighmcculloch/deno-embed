@@ -8,7 +8,7 @@ https://deno.land/x/embed/main.ts
 
 ```
 deno run --allow-read --allow-write \
-    https://deno.land/x/embed/main.ts \
+    https://deno.land/x/embed/cli.ts \
     -i dir1 -i dir2 \
     -o embed.json
 ```
