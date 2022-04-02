@@ -49,8 +49,4 @@ cli
 cli.help();
 cli.version("0.1.0");
 
-try {
-  cli.parse();
-} catch {
-  Deno.exit(1);
-}
+cli.parse();
