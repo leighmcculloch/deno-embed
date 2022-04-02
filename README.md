@@ -7,7 +7,10 @@ https://deno.land/x/embed/main.ts
 ## Usage
 
 ```
-deno run --allow-read --allow-write https://deno.land/x/embed/main.ts -i dir1 -i dir2 -o embed.json
+deno run --allow-read --allow-write \
+    https://deno.land/x/embed/main.ts \
+    -i dir1 -i dir2 \
+    -o embed.json
 ```
 
 ### Lightweight usage
